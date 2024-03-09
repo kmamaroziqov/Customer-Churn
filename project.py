@@ -1,21 +1,34 @@
 import streamlit as st
-import joblib
 import pandas as pd
+import joblib
+import requests
+from io import BytesIO
 import streamlit.components.v1 as components
 
 st.title('Customer Churn Prediction')
 st.write('This app predicts if the customer churns')
 
-# Load the model and scaler (ensure these paths are correct and accessible)
-model_path = 'D:/Kamronbek/project/churn_model.pkl'
-model = joblib.load(model_path)
+# Model and scaler URLs
+model_url = 'https://github.com/kmamaroziqov/Customer-Churn/raw/main/churn_model.pkl'
+scaler_url = 'https://github.com/kmamaroziqov/Customer-Churn/raw/main/Scaler.pkl'
 
-# Assume scaler is pre-fitted and saved correctly alongside the model
-scaler_path = 'D:/Kamronbek/project/scaler.pkl'
-scaler = joblib.load(scaler_path)
+# Function to load model and scaler from URLs
+@st.cache_resource()
+def load_model_and_scaler(model_url, scaler_url):
+    # Load model
+    model_response = requests.get(model_url)
+    model = joblib.load(BytesIO(model_response.content))
+
+    # Load scaler
+    scaler_response = requests.get(scaler_url)
+    scaler = joblib.load(BytesIO(scaler_response.content))
+
+    return model, scaler
+
+model, scaler = load_model_and_scaler(model_url, scaler_url)
 
 # User inputs
-Tenure = st.number_input('Enter the tenure:', min_value=0.0)
+Tenure = st.number_input('Enter the tenure:', min_value=0)
 Complain = st.selectbox('Any complaints?', ('Yes', 'No'))
 DaySinceLastOrder = st.number_input('Days since last order:', min_value=0)
 CashbackAmount = st.number_input('Enter cashback amount:', min_value=0)
