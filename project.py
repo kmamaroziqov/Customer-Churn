@@ -65,7 +65,7 @@ if st.button('Predict Churn'):
 if 'show_iframe' not in st.session_state:
     st.session_state.show_iframe = False
 
-if st.button('Show iframe'):
+if st.button('Show Code'):
     st.session_state.show_iframe = True 
 
 if st.session_state.show_iframe:
@@ -78,5 +78,5 @@ if st.session_state.show_iframe:
     </iframe>
     """, height=505)
     
-    if st.button('Close iframe'):
+    if st.button('Close Code'):
         st.session_state.show_iframe = False  # Hide the ifram
