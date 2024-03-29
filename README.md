@@ -1,2 +1,2 @@
 This repository is used to create Customer Churn Model application.
-You can check the app here: [https](https://omadligroup.streamlit.app/)
+You can check the app here: [Customer Churn App](https://omadligroup.streamlit.app/)
